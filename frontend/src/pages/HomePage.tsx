@@ -6,9 +6,11 @@ import { Features } from '../components/Features';
 
 interface HomePageProps {
   onShowAuth: () => void;
+  user?: { name: string; email: string } | null;
+  onLogout?: () => void;
 }
 
-export const HomePage: React.FC<HomePageProps> = ({ onShowAuth }) => {
+export const HomePage: React.FC<HomePageProps> = ({ onShowAuth, user, onLogout }) => {
   return (
     <div className="min-h-screen">
       <div 
@@ -17,7 +19,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onShowAuth }) => {
           backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.8), rgba(88, 28, 135, 0.8)), url('https://images.pexels.com/photos/258045/pexels-photo-258045.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop')`
         }}
       >
-        <Header onShowAuth={onShowAuth} />
+        <Header onShowAuth={onShowAuth} user={user} onLogout={onLogout} />
         
         {/* Hero Section */}
         <div className="container mx-auto px-6 pt-20 pb-12">

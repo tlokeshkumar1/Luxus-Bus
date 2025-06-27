@@ -2,12 +2,18 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Bus, User, Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import { UserProfileDropdown } from './UserProfileDropdown';
 
 interface HeaderProps {
   onShowAuth: () => void;
+  user?: {
+    name: string;
+    email: string;
+  } | null;
+  onLogout?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onShowAuth }) => {
+export const Header: React.FC<HeaderProps> = ({ onShowAuth, user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -48,13 +54,17 @@ export const Header: React.FC<HeaderProps> = ({ onShowAuth }) => {
 
           {/* User Actions */}
           <div className="flex items-center gap-3">
-            <button
-              onClick={onShowAuth}
-              className="hidden md:flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-lg text-white transition-all hover:scale-105 text-sm"
-            >
-              <User size={16} />
-              Login
-            </button>
+            {user ? (
+              <UserProfileDropdown user={user} onLogout={onLogout || (() => {})} />
+            ) : (
+              <button
+                onClick={onShowAuth}
+                className="hidden md:flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-lg text-white transition-all hover:scale-105 text-sm"
+              >
+                <User size={16} />
+                Login
+              </button>
+            )}
 
             {/* Mobile Menu Toggle */}
             <button
@@ -91,16 +101,18 @@ export const Header: React.FC<HeaderProps> = ({ onShowAuth }) => {
               >
                 Help
               </a>
-              <button
-                onClick={() => {
-                  onShowAuth();
-                  setIsMenuOpen(false);
-                }}
-                className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-lg text-white transition-all w-fit text-sm"
-              >
-                <User size={16} />
-                Login
-              </button>
+              {!user && (
+                <button
+                  onClick={() => {
+                    onShowAuth();
+                    setIsMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-lg text-white transition-all w-fit text-sm"
+                >
+                  <User size={16} />
+                  Login
+                </button>
+              )}
             </nav>
           </div>
         )}

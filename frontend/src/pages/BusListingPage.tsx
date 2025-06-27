@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 interface BusListingPageProps {
   onShowAuth: () => void;
+  user?: { name: string; email: string } | null;
+  onLogout?: () => void;
 }
 
 const mockBuses = [
@@ -85,7 +87,7 @@ const mockBuses = [
   }
 ];
 
-export const BusListingPage: React.FC<BusListingPageProps> = ({ onShowAuth }) => {
+export const BusListingPage: React.FC<BusListingPageProps> = ({ onShowAuth, user, onLogout }) => {
   const { searchData } = useBooking();
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
@@ -120,7 +122,7 @@ export const BusListingPage: React.FC<BusListingPageProps> = ({ onShowAuth }) =>
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <Header onShowAuth={onShowAuth} />
+      <Header onShowAuth={onShowAuth} user={user} onLogout={onLogout} />
       
       <div className="container mx-auto px-6 pt-24">
         {/* Breadcrumb */}
