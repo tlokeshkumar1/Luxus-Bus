@@ -3,3 +3,6 @@
 
 #unwanted files
 venv/
+
+#flask sessions
+flask_sessions/
